@@ -38,8 +38,11 @@ GEM
       rspec-support (~> 3.10.0)
     rspec-support (3.10.2)
     ruby2_keywords (0.0.4)
+    terminal-table (3.0.0)
+      unicode-display_width (~> 1.1, >= 1.1.1)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    unicode-display_width (1.7.0)
     zeitwerk (2.4.2)
 
 PLATFORMS
@@ -51,6 +54,7 @@ DEPENDENCIES
   faraday
   rake
   rspec
+  terminal-table
 
 BUNDLED WITH
    2.2.16

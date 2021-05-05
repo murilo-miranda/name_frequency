@@ -1,4 +1,5 @@
 require_relative 'lib/name_frequency_sys'
+require_relative 'lib/federative_unit'
 
 welcome
 menu
@@ -7,12 +8,13 @@ option = gets.chomp
 loop do
   case option
   when '1'
-    puts 'murilo'
+    uf_list
+    option = gets.chomp
   when '0'
     puts 'até mais'
     break
   else
-    'Opção invalida'
+    puts 'Opção invalida'
   end
 
   menu

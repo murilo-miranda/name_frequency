@@ -3,7 +3,7 @@ require 'name_frequency_sys'
 
 describe 'Name Frequency System' do
   it 'user should receive welcome message when started' do
-    expect {welcome}.to output("Bem-vindo ao sistema IBGE\n").to_stdout
+    expect {welcome}.to output("Bem-vindo ao sistema IBGE \n\n").to_stdout
   end
 
   it 'user should receive menu option list' do
@@ -12,7 +12,7 @@ describe 'Name Frequency System' do
           1. Listar nomes mais comuns de uma Unidade Federativa (UF)
           2. Listar nomes mais comuns de uma cidade
           3. Listar frequência de uso de um nome ao longo dos anos
-          0. Sair
+          0. Sair \n
         PUBLISHED
 
     expect {menu}.to output(msg).to_stdout
@@ -21,9 +21,9 @@ describe 'Name Frequency System' do
   it 'user should receive UF option list' do
     list = <<~PUBLISHED
           Lista das Unidades Federativas do Brasil
-          11 - Rondônia - RO
-          12 - Acre - AC
-          13 - Amazonas - AM
+          12 - Acre
+          27 - Alagoas
+          16 - Amapá
           0. Voltar
         PUBLISHED
 

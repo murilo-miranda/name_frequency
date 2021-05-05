@@ -1,3 +1,6 @@
+require 'faraday'
+require 'json'
+
 class FederativeUnit
   attr_reader :id, :name
 
