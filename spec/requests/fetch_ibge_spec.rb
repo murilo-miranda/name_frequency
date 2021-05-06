@@ -16,4 +16,34 @@ describe 'Fetch data' do
       expect(ufs[2].name).to eq('Amapá')
     end
   end
+
+  context 'Get common name from UFs' do
+    it 'should get ranking name' do
+      json_response = File.read('spec/support/api/ranking_names.json')
+      url = 'https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=12'
+      faraday_response = double('faraday_response', body: json_response, status: 200)
+      allow(Faraday).to receive(:get).with(url).and_return(faraday_response)
+
+      rank = RankingName.find('12')
+
+      expect(rank[0].name).to eq('MARIA')
+      expect(rank[1].name).to eq('JOSE')
+    end
+  end
+
+  context 'Get frequency name over the years' do
+    it 'should get frequency by name' do
+      json_response = File.read('spec/support/api/frequency_names.json')
+      url = 'https://servicodados.ibge.gov.br/api/v2/censos/nomes/joao'
+      faraday_response = double('faraday_response', body: json_response, status: 200)
+      allow(Faraday).to receive(:get).with(url).and_return(faraday_response)
+
+      frequency = RankingName.find_by('joao')
+
+      expect(frequency[0].frequency).to eq(60155)
+      expect(frequency[0].rank).to eq('1930')
+      expect(frequency[1].frequency).to eq(141772)
+      expect(frequency[1].rank).to eq('1940')
+    end
+  end
 end

@@ -20,14 +20,27 @@ describe 'Name Frequency System' do
 
   it 'user should receive UF option list' do
     list = <<~PUBLISHED
-          Lista das Unidades Federativas do Brasil
-          12 - Acre
-          27 - Alagoas
-          16 - Amapá
-          0. Voltar
+          +---------------+---------------------+
+          | IDENTIFICADOR | NOME                |
+          +---------------+---------------------+
+          | 12            | Acre                |
+          | 27            | Alagoas             |
         PUBLISHED
 
-    expect {uf_list}.to output(list).to_stdout
+    expect {uf_list_menu}.to output(include(list)).to_stdout
+  end
+
+  it 'user should receive name frequency over the years' do
+    list = <<~PUBLISHED
+          +-------------------+
+          | PERIODO | JOAO    |
+          +-------------------+
+          | 1930    | 60155   |
+          | 1940    | 141772  |
+          | 1950    | 256001  |
+        PUBLISHED
+
+    expect {frequency_list_menu}.to output(include(list)).to_stdout
   end
 
   xit 'user should receive the search result ' do

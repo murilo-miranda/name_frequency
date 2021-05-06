@@ -14,7 +14,7 @@ class FederativeUnit
 
     json = JSON.parse(response.body, symbolize_names:true)
     result = json.map do |uf|
-      uf = new(id: uf[:id], name: uf[:nome])
+      new(id: uf[:id], name: uf[:nome])
     end
 
     return result
