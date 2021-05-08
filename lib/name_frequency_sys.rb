@@ -33,14 +33,16 @@ def uf_list_menu
     when /\D/
       puts 'A informação que inseriu não é um número, por favor insira um identificador válido'
     when 11..53
-      people = RankingName.find(option)
+      result = RankingName.find(option)
       rows = []
 
-      people.each do |person|
-        rows << [person.rank, person.name, person.frequency]
+      result.each do |people|
+        people.each do |person|
+          rows << [person.rank, person.name, person.frequency]
+        end
+        puts Terminal::Table.new :headings => ['Rank', 'Nome', 'Frequencia'], :rows => rows
+        rows.clear
       end
-
-      puts Terminal::Table.new :headings => ['Rank', 'Nome', 'Frequencia'], :rows => rows
       break
     when 0
       puts 'Voltando'
@@ -53,7 +55,7 @@ end
 
 def frequency_list_menu
   puts 'Digite o nome que deseja buscar:'
-  name = gets.chomp
+  name = STDIN.gets.chomp
   rank_years = RankingName.find_by(name)
 
   rows = []
@@ -61,5 +63,5 @@ def frequency_list_menu
     rows << [ry.rank, ry.frequency]
   end
 
-  puts Terminal::Table.new :headings => ['Periodo', "#{name}"], :rows => rows
+  puts Terminal::Table.new :headings => ['PERIODO', "#{name}"], :rows => rows
 end

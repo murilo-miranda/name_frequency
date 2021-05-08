@@ -1,7 +1,7 @@
 require 'spec_helper.rb'
 require 'faraday'
 
-describe 'Fetch data' do
+describe 'Fetch data - UF' do
   context 'Get UFs' do
     it 'should get Ufs information' do
       json_response = File.read('spec/support/api/ufs_info.json')
@@ -17,7 +17,7 @@ describe 'Fetch data' do
     end
   end
 
-  context 'Get common name from UFs' do
+  xcontext 'Get common name from UFs' do
     it 'should get ranking name' do
       json_response = File.read('spec/support/api/ranking_names.json')
       url = 'https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=12'
@@ -28,6 +28,15 @@ describe 'Fetch data' do
 
       expect(rank[0].name).to eq('MARIA')
       expect(rank[1].name).to eq('JOSE')
+    end
+  end
+
+  xcontext 'Get common male name from UFs' do
+    it 'should get ranking male name' do
+      json_response = File.read('spec/support/api/ranking_male_names.json')
+      url = 'https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=12&sexo=M'
+      faraday_response = double('faraday_response', body: json_response, status: 200)
+      allow(Faraday).to receive(:get).with(url).and_return(faraday_response)
     end
   end
 
