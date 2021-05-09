@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'name_frequency_sys'
+require 'system'
 
 describe 'Name Frequency System' do
   it 'user should receive welcome message when started' do
@@ -32,15 +32,24 @@ describe 'Name Frequency System' do
 
   it 'user should receive name frequency over the years' do
     list = <<~PUBLISHED
-          +---------+--------+
-          | PERIODO | joao   |
-          +---------+--------+
-          | 1930    | 60155  |
-          | 1940    | 141772 |
+          ++---------+--------+
+          +| Período | joao   |
+          ++---------+--------+
+          +| 1930    | 60155  |
+          +| 1940    | 141772 |
         PUBLISHED
 
     allow(STDIN).to receive(:gets) { 'joao' }
     expect {frequency_list_menu}.to output(include(list)).to_stdout
+  end
+
+  xit 'user should receive city list menu' do
+    list = <<~PUBLISHED
+
+
+          PUBLISHED
+
+    expect(city_list_menu).to output(include(list)).to_stdout
   end
 end
 

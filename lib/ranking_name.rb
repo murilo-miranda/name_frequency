@@ -26,14 +26,31 @@ class RankingName
     return result
   end
 
-  def self.find_by(name)
+  def self.find_by_name(name)
+    tables = []
+    result = []
+    name = name.gsub(',','%7C')
+
     response = Faraday.get("https://servicodados.ibge.gov.br/api/v2/censos/nomes/#{name}")
+    "json.size = 2"
+
     json = JSON.parse(response.body, symbolize_names:true)
-    result = json.first[:res].map do |person|
-      new(rank: person[:periodo][-5..-2], name: person[:nome], frequency: person[:frequencia])
+
+    json.each do |person|
+      name = person[:name]
+      person[:res].each do |p|
+        result << new(rank: p[:periodo][-5..-2], name: name, frequency: p[:frequencia])
+      end
+      tables << result
+      result = []
     end
 
-    return result
+    return tables
+  end
+
+  def self.find_by_city(code)
+    response = Faraday.get("https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{code}")
+    processes_response(response)
   end
 
   def self.processes_response(response)

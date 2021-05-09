@@ -19,4 +19,15 @@ class FederativeUnit
 
     return result
   end
+
+  def self.find_cities(code)
+    response = Faraday.get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/#{code}/municipios")
+
+    json = JSON.parse(response.body, symbolize_names:true)
+    result = json.map do |uf|
+      new(id: uf[:id], name: uf[:nome])
+    end
+
+    return result
+  end
 end

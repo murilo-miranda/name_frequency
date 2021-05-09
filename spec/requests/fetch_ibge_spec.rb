@@ -47,12 +47,28 @@ describe 'Fetch data - UF' do
       faraday_response = double('faraday_response', body: json_response, status: 200)
       allow(Faraday).to receive(:get).with(url).and_return(faraday_response)
 
-      frequency = RankingName.find_by('joao')
+      frequency = RankingName.find_by_name('joao')
 
-      expect(frequency[0].frequency).to eq(60155)
-      expect(frequency[0].rank).to eq('1930')
-      expect(frequency[1].frequency).to eq(141772)
-      expect(frequency[1].rank).to eq('1940')
+      expect(frequency[0][0].frequency).to eq(60155)
+      expect(frequency[0][0].rank).to eq('1930')
+      expect(frequency[0][1].frequency).to eq(141772)
+      expect(frequency[0][1].rank).to eq('1940')
+    end
+  end
+
+  context 'Get commom name by city' do
+    it 'should get ranking name by city' do
+      json_response = File.read('spec/support/api/rank_names_city.json')
+      url = 'https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=1200013'
+      faraday_response = double('faraday_response', body: json_response, status: 200)
+      allow(Faraday).to receive(:get).with(url).and_return(faraday_response)
+
+      frequency = RankingName.find_by_city(1200013)
+
+      expect(frequency[0].name).to eq('MARIA')
+      expect(frequency[0].frequency).to eq(713)
+      expect(frequency[1].name).to eq('JOSE')
+      expect(frequency[1].frequency).to eq(422)
     end
   end
 end
