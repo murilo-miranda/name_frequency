@@ -1,0 +1,11 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+  database: ibge
+  username: pguser
+  password: pguser123
+
+development:
+  <<: *default

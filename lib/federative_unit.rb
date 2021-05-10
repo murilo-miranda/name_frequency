@@ -2,10 +2,10 @@ require 'faraday'
 require 'json'
 
 class FederativeUnit
-  attr_reader :id, :name
+  attr_reader :code, :name
 
-  def initialize(id:, name:)
-    @id = id
+  def initialize(code:, name:)
+    @code = code
     @name = name
   end
 
@@ -14,7 +14,7 @@ class FederativeUnit
 
     json = JSON.parse(response.body, symbolize_names:true)
     result = json.map do |uf|
-      new(id: uf[:id], name: uf[:nome])
+      new(code: uf[:id], name: uf[:nome])
     end
 
     return result
@@ -25,7 +25,7 @@ class FederativeUnit
 
     json = JSON.parse(response.body, symbolize_names:true)
     result = json.map do |uf|
-      new(id: uf[:id], name: uf[:nome])
+      new(code: uf[:id], name: uf[:nome])
     end
 
     return result
