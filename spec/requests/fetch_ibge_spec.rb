@@ -1,5 +1,7 @@
 require 'spec_helper.rb'
 require 'faraday'
+require_relative '../../app/models/federative_unit'
+require_relative '../../db/connection'
 
 describe 'Fetch data - UF' do
   context 'Get UFs' do

@@ -1,7 +1,20 @@
 #!/usr/bin/env sh
 set -e
 
+echo
+echo '== Instalando dependências =='
+echo
+
 bundle install
 
 echo
-echo '== Tudo configurado, pode iniciar ;) =='
+echo '== Preparando banco de dados =='
+echo
+
+rake db:reset
+
+ruby db/db_init.rb
+
+echo
+echo '== Tudo pronto =='
+echo

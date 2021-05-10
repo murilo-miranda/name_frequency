@@ -1,6 +1,5 @@
 require_relative 'lib/system'
-require_relative 'lib/federative_unit'
-require_relative 'lib/ranking_name'
+require_relative 'db/connection'
 
 welcome
 menu

@@ -1,6 +1,7 @@
 require 'terminal-table'
 require 'byebug'
 require_relative 'ranking_name'
+require_relative '../app/models/federative_unit'
 
 def welcome
   puts "Bem-vindo ao sistema IBGE \n\n"
@@ -81,7 +82,7 @@ def list_uf
   puts "Lista das Unidades Federativas do Brasil \n\n"
 
   ufs.each do |uf|
-    rows << [uf.id, uf.name]
+    rows << [uf.code, uf.name]
   end
 
   puts Terminal::Table.new :headings => ['IDENTIFICADOR','NOME'], :rows => rows
