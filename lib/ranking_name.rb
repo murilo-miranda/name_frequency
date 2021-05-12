@@ -32,7 +32,6 @@ class RankingName
     name = name.gsub(',','%7C')
 
     response = Faraday.get("https://servicodados.ibge.gov.br/api/v2/censos/nomes/#{name}")
-    "json.size = 2"
 
     json = JSON.parse(response.body, symbolize_names:true)
 

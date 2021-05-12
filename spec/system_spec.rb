@@ -1,5 +1,8 @@
 require 'spec_helper'
 require 'system'
+require_relative '../db/connection'
+require 'faraday'
+
 
 describe 'Name Frequency System' do
   it 'user should receive welcome message when started' do
@@ -32,24 +35,17 @@ describe 'Name Frequency System' do
 
   it 'user should receive name frequency over the years' do
     list = <<~PUBLISHED
-          ++---------+--------+
-          +| Período | joao   |
-          ++---------+--------+
-          +| 1930    | 60155  |
-          +| 1940    | 141772 |
+          Digite o nome que deseja buscar - Não utilizar acento e separar os nomes por ','
+          Por exemplo: murilo,joao
+          +---------+--------+
+          | Período | joao   |
+          +---------+--------+
+          | 1930    | 60155  |
+          | 1940    | 141772 |
         PUBLISHED
 
     allow(STDIN).to receive(:gets) { 'joao' }
     expect {frequency_list_menu}.to output(include(list)).to_stdout
-  end
-
-  xit 'user should receive city list menu' do
-    list = <<~PUBLISHED
-
-
-          PUBLISHED
-
-    expect(city_list_menu).to output(include(list)).to_stdout
   end
 end
 
