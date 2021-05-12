@@ -44,8 +44,17 @@ describe 'Name Frequency System' do
           | 1940    | 141772 |
         PUBLISHED
 
-    allow(STDIN).to receive(:gets) { 'joao' }
+    allow(STDIN).to receive(:gets) {'joao'}
     expect {frequency_list_menu}.to output(include(list)).to_stdout
+  end
+
+  xit 'user should receive city list menu' do
+    msg = <<~PUBLISHED
+      Digite o nome da cidade que deseja buscar
+      Por exemplo: São Paulo, Alta Floresta D'Oeste
+    PUBLISHED
+
+    expect {city_list_menu}.to output(include(msg)).to_stdout
   end
 end
 

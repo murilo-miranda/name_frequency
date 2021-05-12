@@ -2,6 +2,7 @@ require 'terminal-table'
 require 'byebug'
 require_relative 'ranking_name'
 require_relative '../app/models/federative_unit'
+require_relative '../app/models/city'
 
 def welcome
   puts "Bem-vindo ao sistema IBGE \n\n"
@@ -48,6 +49,9 @@ end
 
 def city_list_menu
   puts 'Digite o nome da cidade que deseja buscar'
+  puts "Por exemplo: São Paulo, Alta Floresta D'Oeste"
+  city_name = gets.chomp
+  list_city(city_name)
 end
 
 def frequency_list_menu
@@ -72,6 +76,7 @@ def frequency_list_menu
 
   header = []
   header = name.split(',').sort
+
   puts Terminal::Table.new :headings => ['Período'].concat(header), :rows => rows
 end
 
@@ -79,26 +84,32 @@ def list_uf
   rows = []
   ufs = FederativeUnit.all
 
-  puts "Lista das Unidades Federativas do Brasil \n\n"
-
   ufs.each do |uf|
     rows << [uf.code, uf.name]
   end
 
-  puts Terminal::Table.new :headings => ['IDENTIFICADOR','NOME'], :rows => rows
+  puts Terminal::Table.new :title => 'UNIDADES FEDERATIVAS', :headings => ['IDENTIFICADOR','NOME'], :rows => rows
   puts "\n"
 end
 
-def list_city(code)
-  rows = []
-  cities = FederativeUnit.find_cities(code)
+def list_city(city_name)
+  city = City.where(name: city_name)
 
-  puts "Lista das cidades \n\n"
-
-  cities.each do |city|
-    rows << [uf.id, uf.name]
+  if city.first.nil?
+    puts "\n\n"
+    puts 'Nome da cidade não encontrado, certifique-se de que escreveu corretamente'
+    puts "\n\n"
+    return city_list_menu
   end
 
-  puts Terminal::Table.new :headings => ['IDENTIFICADOR','NOME'], :rows => rows
-  puts "\n"
+  result = RankingName.find(city.first.code)
+  rows = []
+
+  result.each do |people|
+    people.each do |person|
+      rows << [person.rank, person.name, person.frequency]
+    end
+    puts Terminal::Table.new :headings => ['Rank', 'Nome', 'Frequencia'], :rows => rows
+    rows.clear
+  end
 end
