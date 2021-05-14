@@ -48,12 +48,13 @@ describe 'Name Frequency System' do
     expect {frequency_list_menu}.to output(include(list)).to_stdout
   end
 
-  xit 'user should receive city list menu' do
+  it 'user should be asked for a city name' do
     msg = <<~PUBLISHED
       Digite o nome da cidade que deseja buscar
       Por exemplo: São Paulo, Alta Floresta D'Oeste
     PUBLISHED
 
+    allow(STDIN).to receive(:gets) {'São Paulo'}
     expect {city_list_menu}.to output(include(msg)).to_stdout
   end
 end

@@ -50,7 +50,7 @@ end
 def city_list_menu
   puts 'Digite o nome da cidade que deseja buscar'
   puts "Por exemplo: São Paulo, Alta Floresta D'Oeste"
-  city_name = gets.chomp
+  city_name = STDIN.gets.chomp
   list_city(city_name)
 end
 
