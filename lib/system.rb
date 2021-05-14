@@ -28,13 +28,16 @@ def uf_list_menu
       puts 'A informação que inseriu não é um número, por favor insira um identificador válido'
     when 11..53
       result = RankingName.find(option)
+      federative_unit = FederativeUnit.where(code: option)
+      population = federative_unit.first.population
       rows = []
 
       result.each do |people|
         people.each do |person|
-          rows << [person.rank, person.name, person.frequency]
+          percentage = person.frequency / population.to_f * 100
+          rows << [person.rank, person.name, person.frequency, percentage.floor(1)]
         end
-        puts Terminal::Table.new :headings => ['Rank', 'Nome', 'Frequencia'], :rows => rows
+        puts Terminal::Table.new :headings => ['Rank', 'Nome', 'Frequencia', 'Percentual'], :rows => rows
         rows.clear
       end
       break
@@ -103,13 +106,15 @@ def list_city(city_name)
   end
 
   result = RankingName.find(city.first.code)
+  population = city.first.population
   rows = []
 
   result.each do |people|
     people.each do |person|
-      rows << [person.rank, person.name, person.frequency]
+      percentage = person.frequency / population.to_f * 100
+      rows << [person.rank, person.name, person.frequency, percentage.floor(1)]
     end
-    puts Terminal::Table.new :headings => ['Rank', 'Nome', 'Frequencia'], :rows => rows
+    puts Terminal::Table.new :headings => ['Rank', 'Nome', 'Frequencia', 'Percentual'], :rows => rows
     rows.clear
   end
 end

@@ -9,7 +9,7 @@ require_relative 'connection'
 ### Populate database
 
 p 'Fazendo conexões'
-fus = Faraday.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados') #?orderBy=nome
+fus = Faraday.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
 cities = Faraday.get('https://servicodados.ibge.gov.br/api/v1/localidades/municipios')
 
 p 'Preparando os dados'
