@@ -1,5 +1,6 @@
 require_relative 'lib/system'
 require_relative 'db/connection'
+require_relative 'app/views/display'
 
 welcome
 menu

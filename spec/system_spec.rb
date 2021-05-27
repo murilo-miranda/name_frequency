@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'system'
-require_relative '../db/connection'
 require 'faraday'
-
+require_relative '../db/connection'
+require_relative '../app/views/display'
 
 describe 'Name Frequency System' do
   it 'user should receive welcome message when started' do

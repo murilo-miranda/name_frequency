@@ -3,18 +3,7 @@ require 'byebug'
 require_relative 'ranking_name'
 require_relative '../app/models/federative_unit'
 require_relative '../app/models/city'
-
-def welcome
-  puts "Bem-vindo ao sistema IBGE \n\n"
-end
-
-def menu
-  puts "Escolha a opção desejada:"
-  puts "1. Listar nomes mais comuns de uma Unidade Federativa (UF)"
-  puts "2. Listar nomes mais comuns de uma cidade"
-  puts "3. Listar frequência de uso de um nome ao longo dos anos"
-  puts "0. Sair \n\n"
-end
+require_relative '../app/services/tablehandler'
 
 def uf_list_menu
   list_uf
@@ -30,14 +19,15 @@ def uf_list_menu
       result = RankingName.find(option)
       federative_unit = FederativeUnit.where(code: option)
       population = federative_unit.first.population
-      rows = []
 
       result.each do |people|
-        people.each do |person|
+        rows = people.map do |person|
           percentage = person.frequency / population.to_f * 100
-          rows << [person.rank, person.name, person.frequency, percentage.floor(1)]
+          [person.rank, person.name, person.frequency, percentage.floor(1)]
         end
-        puts Terminal::Table.new :headings => ['Rank', 'Nome', 'Frequencia', 'Percentual'], :rows => rows
+
+        puts TableHandler.create_table(['Rank', 'Nome', 'Frequencia', 'Percentual'], rows)
+
         rows.clear
       end
       break
@@ -77,21 +67,19 @@ def frequency_list_menu
     data_row = []
   end
 
-  header = []
   header = name.split(',').sort
 
-  puts Terminal::Table.new :headings => ['Período'].concat(header), :rows => rows
+  puts TableHandler.create_table(['Período'].concat(header), rows)
 end
 
 def list_uf
-  rows = []
   ufs = FederativeUnit.all
 
-  ufs.each do |uf|
-    rows << [uf.code, uf.name]
+  rows = ufs.map do |uf|
+    [uf.code, uf.name]
   end
 
-  puts Terminal::Table.new :title => 'UNIDADES FEDERATIVAS', :headings => ['IDENTIFICADOR','NOME'], :rows => rows
+  puts TableHandler.create_table(['IDENTIFICADOR','NOME'], rows)
   puts "\n"
 end
 
@@ -102,7 +90,7 @@ def list_city(city_name)
     puts "\n\n"
     puts 'Nome da cidade não encontrado, certifique-se de que escreveu corretamente'
     puts "\n\n"
-    return city_list_menu
+    city_list_menu
   end
 
   result = RankingName.find(city.first.code)
@@ -110,11 +98,12 @@ def list_city(city_name)
   rows = []
 
   result.each do |people|
-    people.each do |person|
+    rows = people.map do |person|
       percentage = person.frequency / population.to_f * 100
-      rows << [person.rank, person.name, person.frequency, percentage.floor(1)]
+      [person.rank, person.name, person.frequency, percentage.floor(1)]
     end
-    puts Terminal::Table.new :headings => ['Rank', 'Nome', 'Frequencia', 'Percentual'], :rows => rows
+
+    puts TableHandler.create_table(['Rank', 'Nome', 'Frequencia', 'Percentual'], rows)
     rows.clear
   end
 end
