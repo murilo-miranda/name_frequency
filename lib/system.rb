@@ -26,7 +26,7 @@ def uf_list_menu
           [person.rank, person.name, person.frequency, percentage.floor(1)]
         end
 
-        puts TableHandler.create_table(['Rank', 'Nome', 'Frequencia', 'Percentual'], rows)
+        puts TableHandler.create_table(%w[Rank Nome Frequencia Percentual], rows)
 
         rows.clear
       end
@@ -43,7 +43,7 @@ end
 def city_list_menu
   puts 'Digite o nome da cidade que deseja buscar'
   puts "Por exemplo: São Paulo, Alta Floresta D'Oeste"
-  city_name = STDIN.gets.chomp
+  city_name = $stdin.gets.chomp
   list_city(city_name)
 end
 
@@ -51,7 +51,7 @@ def frequency_list_menu
   puts "Digite o nome que deseja buscar - Não utilizar acento e separar os nomes por ','"
   puts 'Por exemplo: murilo,joao'
 
-  name = STDIN.gets.chomp
+  name = $stdin.gets.chomp
   rank_years = RankingName.find_by_name(name)
 
   rows = []
@@ -79,7 +79,7 @@ def list_uf
     [uf.code, uf.name]
   end
 
-  puts TableHandler.create_table(['IDENTIFICADOR','NOME'], rows)
+  puts TableHandler.create_table(%w[IDENTIFICADOR NOME], rows)
   puts "\n"
 end
 
@@ -103,7 +103,7 @@ def list_city(city_name)
       [person.rank, person.name, person.frequency, percentage.floor(1)]
     end
 
-    puts TableHandler.create_table(['Rank', 'Nome', 'Frequencia', 'Percentual'], rows)
+    puts TableHandler.create_table(%w[Rank Nome Frequencia Percentual], rows)
     rows.clear
   end
 end

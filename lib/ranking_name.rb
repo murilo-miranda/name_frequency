@@ -11,40 +11,36 @@ class RankingName
     @frequency = frequency
   end
 
-  def self.find(uf)
+  def self.find(uf_code)
     result = []
-    gender = ['M', 'F']
+    gender = %w[M F]
 
-    response = Faraday.get("https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{uf}")
+    response = Faraday.get("https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{uf_code}")
     result << processes_response(response)
 
     gender.each do |g|
-      response = Faraday.get("https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{uf}&sexo=#{g}")
+      response = Faraday.get("https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{uf_code}&sexo=#{g}")
       result << processes_response(response)
     end
 
-    return result
+    result
   end
 
   def self.find_by_name(name)
     tables = []
-    result = []
-    name = name.gsub(',','%7C')
+    name = name.gsub(',', '%7C')
 
     response = Faraday.get("https://servicodados.ibge.gov.br/api/v2/censos/nomes/#{name}")
 
-    json = JSON.parse(response.body, symbolize_names:true)
+    json = JSON.parse(response.body, symbolize_names: true)
 
     json.each do |person|
-      name = person[:name]
-      person[:res].each do |p|
-        result << new(rank: p[:periodo][-5..-2], name: name, frequency: p[:frequencia])
+      tables << person[:res].map do |p|
+        new(rank: p[:periodo][-5..-2], name: person[:name], frequency: p[:frequencia])
       end
-      tables << result
-      result = []
     end
 
-    return tables
+    tables
   end
 
   def self.find_by_city(code)
@@ -53,10 +49,9 @@ class RankingName
   end
 
   def self.processes_response(response)
-    json = JSON.parse(response.body, symbolize_names:true)
-    result = json.first[:res].map do |person|
+    json = JSON.parse(response.body, symbolize_names: true)
+    json.first[:res].map do |person|
       new(rank: person[:ranking], frequency: person[:frequencia], name: person[:nome])
     end
-    return result
   end
 end

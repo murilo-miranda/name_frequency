@@ -7,6 +7,6 @@ class TableHandler
   end
 
   def self.create_table(header, rows)
-    Terminal::Table.new :headings => header, :rows => rows
+    Terminal::Table.new headings: header, rows: rows
   end
 end

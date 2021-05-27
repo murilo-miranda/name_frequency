@@ -1,10 +1,12 @@
-require 'spec_helper.rb'
+# frozen_string_literal: true
+
+require 'spec_helper'
 require 'csv'
 
 describe 'Fetch csv data' do
   context 'read csv file' do
     it 'should get all data' do
-      table = CSV.parse(File.read("spec/support/populacao_2019.csv"), headers: true)
+      table = CSV.parse(File.read('spec/support/populacao_2019.csv'), headers: true)
 
       expect(table[0]['Nível']).to eq 'UF'
       expect(table[0]['Cód.']).to eq '11'
@@ -13,9 +15,9 @@ describe 'Fetch csv data' do
     end
 
     it 'should search for UF data' do
-      table = CSV.parse(File.read("spec/support/populacao_2019.csv"), headers: true)
+      table = CSV.parse(File.read('spec/support/populacao_2019.csv'), headers: true)
 
-      table_ufs = table.select {|element| element.to_s.start_with?('UF')}
+      table_ufs = table.select { |element| element.to_s.start_with?('UF') }
 
       expect(table_ufs.first['Nível']).to eq 'UF'
       expect(table_ufs.first['Cód.']).to eq '11'
@@ -28,9 +30,9 @@ describe 'Fetch csv data' do
     end
 
     it 'should search for MU data' do
-      table = CSV.parse(File.read("spec/support/populacao_2019.csv"), headers: true)
+      table = CSV.parse(File.read('spec/support/populacao_2019.csv'), headers: true)
 
-      table_ufs = table.select {|element| element.to_s.start_with?('UF')}
+      table_ufs = table.select { |element| element.to_s.start_with?('UF') }
       pos = table_ufs.count
 
       table[pos..30].each do |city|
